@@ -4,7 +4,13 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import net.percederberg.mibble.MibLoader;
+import org.snmp4j.smi.OctetString;
+import org.snmp4j.smi.TimeTicks;
 import org.soulwing.snmp.*;
+
+import java.io.File;
+import java.lang.String;
 
 
 public class Main extends Application {
@@ -30,16 +36,39 @@ public class Main extends Application {
         mib.load("TOKEN-RING-RMON-MIB");
         mib.load("RMON2-MIB");
         mib.load("ALARM-MIB");
+        mib.load("HOST-RESOURCES-MIB");
+        File file = new File("C:\\Users\\Erikc\\Downloads\\NAS.mib");
+        mib.load(file);
 
 
         SimpleSnmpV2cTarget target = new SimpleSnmpV2cTarget();
-        target.setAddress("192.168.1.41");
+        target.setAddress("10.10.30.254");
         target.setCommunity("public");
+        /*
+            .1.3.6.1.2.1.1.1.0 --> Hardware Information
+            .1.3.6.1.2.1.25.1.1.0 --> SystemUpTime
+            .1.3.6.1.2.1.25.2.2.0 --> memorySize
+            .1.3.6.1.2.1.1.6.0 --> Location
+            .1.3.6.1.2.1.1.5.0 --> Name
+            .1.3.6.1.4.1.24681.1.2.8.0 --> IfNumber Nas
+            .1.3.6.1.4.1.24681.1.2.2.0 --> SystemTotalMem Nas
+         */
 
         SnmpContext context = SnmpFactory.getInstance().newContext(target, mib);
         try {
-            VarbindCollection result = context.get(".1.3.6.1.2.1.1.1.0").get();
-            System.out.println(result.get(0));
+            String x = ".1.3.6.1.4.1.24681.1.2.1.0";
+            VarbindCollection result = context.get(x).get();
+            if(x.equals(".1.3.6.1.2.1.25.1.1.0") /*|| x.equals(".1.3.6.1.4.1.24681.1.3.13.0")*/){
+                long time = Long.parseLong(String.valueOf(result.get(0)));
+                TimeTicks t = new TimeTicks(time);
+                System.out.println(t.toString());
+            }else{
+                //int kb = Integer.parseInt(String.valueOf(result.get(0))) / 1000;
+                //System.out.println(kb + "megaByte");
+                //OctetString octetString = new OctetString(String.valueOf(result.get(0)));
+                System.out.println(result.get(0));
+            }
+
         } finally {
             context.close();
         }
@@ -47,7 +76,7 @@ public class Main extends Application {
         BorderPane root = new BorderPane();
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 300, 275));
-        primaryStage.show();
+        //primaryStage.show();
     }
 
 
