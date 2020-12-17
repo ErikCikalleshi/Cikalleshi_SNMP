@@ -29,7 +29,7 @@ public class Main extends Application {
         URL url = new File("C:\\Users\\Erikc\\IdeaProjects\\SNMP\\src\\main\\resources\\sample.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 1000, 1200));
+        primaryStage.setScene(new Scene(root, 1200, 800));
         primaryStage.show();
     }
 

@@ -10,7 +10,7 @@ public class Client extends HBox {
         this.test = new Button(ip);
         this.test.setOnAction(e -> {
             try {
-                //Controller.getInstance().load(ip, community);
+                Controller.getInstance().load(ip, community);
             } catch (Exception exception) {
                 exception.printStackTrace();
             }

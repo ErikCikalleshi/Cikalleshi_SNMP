@@ -1,10 +1,5 @@
 
-[	java:S125"<This block of commented-out lines of code should be removed.(˜ı‚†úÿÿÿÿ8ËÿÌ¸ä.
-[	java:S125"<This block of commented-out lines of code should be removed.(èÙ‹Ìşÿÿÿÿ8ËÿÌ¸ä.
-q
-java:S1128"QRemove this unnecessary import: java.lang classes are always implicitly imported.(ôİÕıÿÿÿÿ8ËÿÌ¸ä.
-[
-java:S1128";Remove this unused import 'javafx.scene.layout.BorderPane'.(Îî¥üÿÿÿÿ8ËÿÌ¸ä.
-a
-java:S1075"ARefactor your code to get this URI from a customizable parameter.(´ƒË”ùÿÿÿÿ8ËÿÌ¸ä.
-[	java:S125"<This block of commented-out lines of code should be removed.(ıâŸ‡ÿÿÿÿÿ8ËÿÌ¸ä.
+c
+java:S1075("ARefactor your code to get this URI from a customizable parameter.(´ƒË”ùÿÿÿÿ8ËÿÌ¸ä.
+c
+java:S1075"ARefactor your code to get this URI from a customizable parameter.(ÏÖÉüÿÿÿÿ8›ò‘‚ç.

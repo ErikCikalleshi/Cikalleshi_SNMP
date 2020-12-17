@@ -6,10 +6,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import org.apache.commons.lang3.ArrayUtils;
 import org.soulwing.snmp.VarbindCollection;
+
 import java.io.IOException;
 import java.net.InetAddress;
-
+import java.util.Arrays;
 
 
 public class Controller {
@@ -68,10 +70,15 @@ public class Controller {
             final int j = i;
             new Thread(() -> {
                 try {
-                    String host = ipField.getText() + j;
-                    InetAddress address = InetAddress.getByName(host);
+                    String host = "10.10.30.0";
+                    String[] temp = host.split("\\.");
+                    temp[3] = String.valueOf(j);
+                    String x = String.join(".", temp);
+                    InetAddress address = InetAddress.getByName(x);
                     if (address.isReachable(timeout)) {
-                        table01.getItems().add(new Client("192.168.1." + j, CommField.getText()));
+                        //System.out.println(x);
+                        //System.out.println("in" + CommField.getText());
+                        table01.getItems().add(new Client(x, "public"));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
