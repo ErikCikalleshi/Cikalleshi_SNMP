@@ -3,13 +3,14 @@
     <output-path>$PROJECT_DIR$/out/artifacts/SNMP_jar</output-path>
     <root id="archive" name="SNMP.jar">
       <element id="module-output" name="SNMP" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/soulwing/snmp/tnm4j/1.0.11/tnm4j-1.0.11.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/net/percederberg/mibble/mibble-mibs/2.9.3/mibble-mibs-2.9.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.7/slf4j-api-1.7.7.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/slf4j/log4j-over-slf4j/1.7.7/log4j-over-slf4j-1.7.7.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/net/percederberg/mibble/mibble/2.9.3/mibble-2.9.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.11/commons-lang3-3.11.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/net/percederberg/grammatica/grammatica/1.5/grammatica-1.5.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/snmp4j/snmp4j/2.8.4/snmp4j-2.8.4.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/net/percederberg/mibble/mibble/2.9.3/mibble-2.9.3.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/net/percederberg/mibble/mibble-mibs/2.9.3/mibble-mibs-2.9.3.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/soulwing/snmp/tnm4j/1.0.11/tnm4j-1.0.11.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/slf4j/log4j-over-slf4j/1.7.7/log4j-over-slf4j-1.7.7.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.7/slf4j-api-1.7.7.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

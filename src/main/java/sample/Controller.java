@@ -70,7 +70,7 @@ public class Controller {
             final int j = i;
             new Thread(() -> {
                 try {
-                    String host = "10.10.30.0";
+                    String host = ipField.getText();
                     String[] temp = host.split("\\.");
                     temp[3] = String.valueOf(j);
                     String x = String.join(".", temp);
