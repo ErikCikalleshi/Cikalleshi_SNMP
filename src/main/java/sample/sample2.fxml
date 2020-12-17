@@ -66,7 +66,7 @@
                 <Font size="18.0" fx:id="x1" />
               </font>
             </Label>
-                  <TextField fx:id="ipField" layoutX="111.0" layoutY="15.0" onAction="#getIpBtn" />
+                  <TextField fx:id="IPtextField" layoutX="111.0" layoutY="15.0" onAction="#getIpBtn" />
                   <Button fx:id="scanNetworkBtn" layoutX="31.0" layoutY="87.0" mnemonicParsing="false" onAction="#scanNetwork" prefHeight="32.0" prefWidth="239.0" text="Scan Network" />
                   <TableView fx:id="table01" layoutX="23.0" layoutY="127.0" prefHeight="607.0" prefWidth="256.0">
                     <columns>

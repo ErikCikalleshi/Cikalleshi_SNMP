@@ -1,11 +1,15 @@
 package sample;
 
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import org.soulwing.snmp.VarbindCollection;
 import java.io.IOException;
 import java.net.InetAddress;
+
 
 
 public class Controller {
@@ -18,6 +22,8 @@ public class Controller {
     private TextField ipField;
     @FXML
     private TextField CommField;
+    @FXML
+    private Button scanNetworkBtn;
     @FXML
     public TableView<Varbinds> table02;
     @FXML
@@ -52,8 +58,11 @@ public class Controller {
         table02.getColumns().add(Value);
     }
 
+    public void getIpBtn(ActionEvent actionEvent) {
+        //read();
+    }
 
-    public void scanNetwork() {
+    public void scanNetwork(ActionEvent actionEvent) {
         int timeout = 1000;
         for (int i = 0; i < 255; i++) {
             final int j = i;
@@ -71,4 +80,7 @@ public class Controller {
         }
     }
 
+    public void click(MouseEvent mouseEvent) {
+        System.out.println("ssd");
+    }
 }

@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 import org.soulwing.snmp.*;
 
 import java.io.*;
-
+import java.net.URL;
 
 
 public class Main extends Application {
@@ -26,9 +26,10 @@ public class Main extends Application {
             .1.3.6.1.2.1.1.1.0 --> sysDescr
             .1.3.6.1.2.1.1.1.0
          */
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("sample.fxml"));
+        URL url = new File("C:\\Users\\Erikc\\IdeaProjects\\SNMP\\src\\main\\resources\\sample.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
         primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 1200, 800));
+        primaryStage.setScene(new Scene(root, 1000, 1200));
         primaryStage.show();
     }
 
@@ -36,7 +37,7 @@ public class Main extends Application {
         SimpleSnmpV2cTarget target = new SimpleSnmpV2cTarget();
         Mib mib = MibFactory.getInstance().newMib();
         loadMib(mib);
-        File file = new File("C:\\Users\\KErikc\\Downloads\\NAS.mib");
+        File file = new File("C:\\Users\\Erikc\\Downloads\\NAS.mib");
         mib.load(file);
         target.setAddress(ip);
         target.setCommunity(community);
