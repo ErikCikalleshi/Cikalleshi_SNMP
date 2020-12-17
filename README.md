@@ -19,7 +19,7 @@ Systeme und Netze: SNMP-Tool programmieren
 
 ## Installing
 
-In die Releases kann man die [SNMP.jar](SNMP/out/artifacts/SNMP_jar/SNMP.jar)-Datei herunterladen.
+In die Releases kann man die [SNMP.jar](https://github.com/Th3RapidK1ller/Cikalleshi_SNMP/releases/download/ThirdMileStone/SNMP.jar)-Datei herunterladen.
 
 ## Running the Program
 
@@ -53,6 +53,7 @@ Das Programm muss noch umstrukturiert werden:
 * User muss noch die Subnetmaske eingeben
 * Standarmäßig public oder private Community-String
 * Load -und Unload von eigene Mib-Dateien
-* **TrapListener muss noch programmiert werden**
+* Eigene MIBs bzw. OID eingeben (sysName bzw. .1.3.6.1.2.1.1.5.0)
+* **Traps oder Informs empfangen muss noch programmiert werden**
 
 
