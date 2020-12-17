@@ -38,7 +38,7 @@ java -version
 
 Man muss nur das gewünschte Subnet und die Community eingeben.
 Dann wählen Sie die IP-Adresse aus.
-![Scanning for Network](SNMP/src/example.png)
+![Scanning for Network](src/example.png)
 
 
 ## Status
