@@ -83,7 +83,7 @@ public class Controller {
 
     public void scanNetwork(ActionEvent actionEvent) {
         int timeout = 200;
-        ExecutorService executor = Executors.newFixedThreadPool(3);
+        ExecutorService executor = Executors.newFixedThreadPool(2);
         for (int i = 0; i < 255; i++) {
             final int j = i;
             executor.submit(() -> {
@@ -97,6 +97,7 @@ public class Controller {
                     if (address.isReachable(timeout)) {
                         //System.out.println(x);
                         //System.out.println("in" + CommField.getText());
+                        isReachable(x, "public");
                         table01.getItems().add(new Client(x, "public"));
                     }
                 } catch (Exception e) {
@@ -104,6 +105,10 @@ public class Controller {
                 }
             });
         }
+    }
+
+    private void isReachable(String x, String aPublic) {
+        VarbindCollection v =
     }
 
     public void click(MouseEvent mouseEvent) {

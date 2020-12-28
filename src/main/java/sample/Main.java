@@ -15,6 +15,7 @@ import java.util.concurrent.TimeoutException;
 
 
 public class Main extends Application {
+    static Mib mib = MibFactory.getInstance().newMib();
     @Override
     public void start(Stage primaryStage) throws Exception {
         /*
@@ -29,6 +30,10 @@ public class Main extends Application {
             .1.3.6.1.2.1.1.1.0 --> sysDescr
             .1.3.6.1.2.1.1.1.0
          */
+
+        loadMib(mib);
+        File file = new File("C:\\Users\\Erikc\\Downloads\\NAS.mib");
+        mib.load(file);
         URL url = new File("C:\\Users\\Erikc\\IdeaProjects\\SNMP\\src\\main\\resources\\sample.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         primaryStage.setTitle("Hello World");
@@ -38,10 +43,6 @@ public class Main extends Application {
 
     static VarbindCollection read(String ip, String community) throws IOException, ExecutionException, InterruptedException {
         SimpleSnmpV2cTarget target = new SimpleSnmpV2cTarget();
-        Mib mib = MibFactory.getInstance().newMib();
-        loadMib(mib);
-        File file = new File("C:\\Users\\Erikc\\Downloads\\NAS.mib");
-        mib.load(file);
         target.setAddress(ip);
         target.setCommunity("public");
         ExecutorService executor = Executors.newSingleThreadExecutor();
