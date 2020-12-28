@@ -12,7 +12,6 @@ public class Client extends HBox {
             try {
                 Controller.getInstance().load(ip, community);
             } catch (Exception exception) {
-                System.out.println("sdfa");
                 exception.printStackTrace();
             }
         });

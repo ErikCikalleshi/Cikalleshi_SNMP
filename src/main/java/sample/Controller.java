@@ -3,20 +3,13 @@ package sample;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.paint.Color;
-import org.apache.commons.lang3.ArrayUtils;
 import org.soulwing.snmp.*;
-
 import java.io.IOException;
 import java.net.InetAddress;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -43,7 +36,7 @@ public class Controller {
     public TableColumn<Varbinds, String> OID;
     @FXML
     private TableColumn<Varbinds, String> Value;
-    private boolean frstScan;
+    private ArrayList<Client> clients = new ArrayList<>();
 
     public static Controller getInstance() {
         return instance;
@@ -57,9 +50,14 @@ public class Controller {
             System.out.print("");
         }
         if (v == null) {
+            for (int i = 0; i < clients.size(); i++) {
+                if(clients.get(i).getTest().getText().equals(ip)){
+                    clients.get(i).getTest().setStyle("-fx-background-color: yellow");
+                }
+            }
+
             System.out.println(ip + "not reachable with SNMP");
         }else{
-
             for (int i = 0; i < v.size(); i++) {
                 table02.getItems().add(new Varbinds(v.get(i)));
             }
@@ -95,7 +93,6 @@ public class Controller {
         CommField = new TextField();
         ipField.setText("10.10.30.0");
         CommField.setText("public");
-        frstScan = true;
         Name.setCellValueFactory(new PropertyValueFactory<>("Name"));
         OID.setCellValueFactory(new PropertyValueFactory<>("OID"));
         Value.setCellValueFactory(new PropertyValueFactory<>("Value"));
@@ -110,8 +107,8 @@ public class Controller {
         //read();
     }
 
-    public void scanNetwork(ActionEvent actionEvent) throws InterruptedException {
-        int timeout = 500;
+    public void scanNetwork(ActionEvent actionEvent){
+        int timeout = 1000;
         String host = ipField.getText();
         String[] temp = host.split("\\.");
         ExecutorService executor = Executors.newCachedThreadPool();
@@ -126,8 +123,9 @@ public class Controller {
                     if (address.isReachable(timeout)) {
                         System.out.println(address.toString());
                         //System.out.println("in" + CommField.getText());
-                        table01.getItems().add(new Client(x, "public"));
-
+                        clients.add(new Client(x, "public"));
+                        table01.getItems().add(clients.get(clients.size() - 1));
+                        load(x, "public");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -135,10 +133,13 @@ public class Controller {
             });
         }
         executor.shutdown();
-        if(!executor.awaitTermination(1000, TimeUnit.MILLISECONDS)){
-            frstScan = false;
+        try {
+            if(!executor.awaitTermination(500, TimeUnit.MILLISECONDS)){
+                table02.getItems().clear();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-
     }
 
 

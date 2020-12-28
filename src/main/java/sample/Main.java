@@ -6,10 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.soulwing.snmp.*;
-
 import java.io.*;
 import java.net.URL;
-import java.util.List;
 import java.util.concurrent.*;
 import java.util.concurrent.TimeoutException;
 
@@ -63,7 +61,7 @@ public class Main extends Application {
         });
 
         try {
-            future.get(2, TimeUnit.SECONDS); //timeout is in 5 seconds
+            future.get(500, TimeUnit.MILLISECONDS); //timeout is in 5 seconds
         } catch (TimeoutException e) {
             System.err.println("Your Client is with SNMP not reachable");
             executor.shutdownNow();
