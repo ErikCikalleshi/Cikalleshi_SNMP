@@ -3,9 +3,14 @@ package sample;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
 import org.apache.commons.lang3.ArrayUtils;
 import org.soulwing.snmp.*;
 
@@ -15,6 +20,7 @@ import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 
 public class Controller {
@@ -43,7 +49,7 @@ public class Controller {
         return instance;
     }
 
-    public synchronized void load(String ip, String community) {
+    public void load(String ip, String community) throws InterruptedException {
         VarbindCollection v = null;
         try {
             v = Main.read(ip, community);
@@ -52,13 +58,29 @@ public class Controller {
         }
         if (v == null) {
             System.out.println(ip + "not reachable with SNMP");
-        } else if (frstScan) {
+            table01.getItems().stream().sort6ed();
+        }else{
             table01.getItems().add(new Client(ip, "public"));
-        } else {
+        }
+        /*if (!frstScan){
+            table02.getItems().clear();
             for (int i = 0; i < v.size(); i++) {
                 table02.getItems().add(new Varbinds(v.get(i)));
             }
-        }
+        }*/
+
+
+        /*if (frstScan) {
+            synchronized (this){
+                table01.getItems().add(new Client(ip, "public"));
+            }
+
+        } else {
+            table02.getItems().clear();
+            for (int i = 0; i < v.size(); i++) {
+                table02.getItems().add(new Varbinds(v.get(i)));
+            }
+        }*/
 
 
     }
@@ -85,29 +107,35 @@ public class Controller {
         //read();
     }
 
-    public void scanNetwork(ActionEvent actionEvent) {
+    public void scanNetwork(ActionEvent actionEvent) throws InterruptedException {
         int timeout = 500;
         String host = ipField.getText();
         String[] temp = host.split("\\.");
-        ExecutorService executor = Executors.newFixedThreadPool(3);
-        executor.execute(() -> {
-            for (int i = 1; i < 255; i++) {
+        ExecutorService executor = Executors.newCachedThreadPool();
+        for (int i = 1; i < 255; i++) {
+            final int j = i;
+            executor.execute(() -> {
                 try {
-                    System.out.println(i);
-                    temp[3] = String.valueOf(i);
+                    System.out.println(j);
+                    temp[3] = String.valueOf(j);
                     String x = String.join(".", temp);
                     InetAddress address = InetAddress.getByName(x);
                     if (address.isReachable(timeout)) {
                         System.out.println(address.toString());
                         //System.out.println("in" + CommField.getText());
                         table01.getItems().add(new Client(x, "public"));
-                        //load(x,"public");
+                        load(x, "public");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
-        });
+            });
+        }
+        executor.shutdown();
+        if(!executor.awaitTermination(1000, TimeUnit.MILLISECONDS)){
+            frstScan = false;
+        }
+
     }
 
 
