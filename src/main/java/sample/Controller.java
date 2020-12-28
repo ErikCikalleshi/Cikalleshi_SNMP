@@ -58,10 +58,13 @@ public class Controller {
         }
         if (v == null) {
             System.out.println(ip + "not reachable with SNMP");
-
         }else{
-            table01.getItems().add(new Client(ip, "public"));
+
+            for (int i = 0; i < v.size(); i++) {
+                table02.getItems().add(new Varbinds(v.get(i)));
+            }
         }
+
         /*if (!frstScan){
             table02.getItems().clear();
             for (int i = 0; i < v.size(); i++) {
@@ -124,7 +127,7 @@ public class Controller {
                         System.out.println(address.toString());
                         //System.out.println("in" + CommField.getText());
                         table01.getItems().add(new Client(x, "public"));
-                        load(x, "public");
+
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
