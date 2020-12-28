@@ -12,6 +12,9 @@ import org.soulwing.snmp.VarbindCollection;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class Controller {
@@ -39,17 +42,31 @@ public class Controller {
         return instance;
     }
 
-    public void load(String ip, String community) throws IOException {
-        VarbindCollection v = Main.read(ip, community);
-        for (int i = 0; i < v.size(); i++) {
-            table02.getItems().add(new Varbinds(v.get(i)));
+    public void load(String ip, String community){
+        VarbindCollection v = null;
+        try {
+            v = Main.read(ip, community);
+        } catch (IOException | ExecutionException | InterruptedException e) {
+            System.out.println("Null");
         }
+        if(v == null){
+            System.out.println("eroor");
+        }else{
+            for (int i = 0; i < v.size(); i++) {
+                table02.getItems().add(new Varbinds(v.get(i)));
+            }
+        }
+
 
     }
 
     @FXML
     public void initialize() {
         instance = this;
+        ipField = new TextField();
+        CommField = new TextField();
+        ipField.setText("10.10.30.0");
+        CommField.setText("public");
         Name.setCellValueFactory(new PropertyValueFactory<>("Name"));
         OID.setCellValueFactory(new PropertyValueFactory<>("OID"));
         Value.setCellValueFactory(new PropertyValueFactory<>("Value"));
@@ -65,11 +82,13 @@ public class Controller {
     }
 
     public void scanNetwork(ActionEvent actionEvent) {
-        int timeout = 1000;
+        int timeout = 200;
+        ExecutorService executor = Executors.newFixedThreadPool(3);
         for (int i = 0; i < 255; i++) {
             final int j = i;
-            new Thread(() -> {
+            executor.submit(() -> {
                 try {
+                    System.out.println(j);
                     String host = ipField.getText();
                     String[] temp = host.split("\\.");
                     temp[3] = String.valueOf(j);
@@ -83,7 +102,7 @@ public class Controller {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }).start();
+            });
         }
     }
 
