@@ -58,7 +58,7 @@ public class Controller {
         }
         if (v == null) {
             System.out.println(ip + "not reachable with SNMP");
-            table01.getItems().stream().sort6ed();
+
         }else{
             table01.getItems().add(new Client(ip, "public"));
         }
