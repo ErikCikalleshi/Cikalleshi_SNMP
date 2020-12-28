@@ -7,7 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import org.apache.commons.lang3.ArrayUtils;
-import org.soulwing.snmp.VarbindCollection;
+import org.soulwing.snmp.*;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -37,21 +37,24 @@ public class Controller {
     public TableColumn<Varbinds, String> OID;
     @FXML
     private TableColumn<Varbinds, String> Value;
+    private boolean frstScan;
 
     public static Controller getInstance() {
         return instance;
     }
 
-    public void load(String ip, String community){
+    public synchronized void load(String ip, String community) {
         VarbindCollection v = null;
         try {
             v = Main.read(ip, community);
         } catch (IOException | ExecutionException | InterruptedException e) {
-            System.out.println("Null");
+            System.out.print("");
         }
-        if(v == null){
-            System.out.println("eroor");
-        }else{
+        if (v == null) {
+            System.out.println(ip + "not reachable with SNMP");
+        } else if (frstScan) {
+            table01.getItems().add(new Client(ip, "public"));
+        } else {
             for (int i = 0; i < v.size(); i++) {
                 table02.getItems().add(new Varbinds(v.get(i)));
             }
@@ -67,6 +70,7 @@ public class Controller {
         CommField = new TextField();
         ipField.setText("10.10.30.0");
         CommField.setText("public");
+        frstScan = true;
         Name.setCellValueFactory(new PropertyValueFactory<>("Name"));
         OID.setCellValueFactory(new PropertyValueFactory<>("OID"));
         Value.setCellValueFactory(new PropertyValueFactory<>("Value"));
@@ -82,34 +86,30 @@ public class Controller {
     }
 
     public void scanNetwork(ActionEvent actionEvent) {
-        int timeout = 200;
-        ExecutorService executor = Executors.newFixedThreadPool(2);
-        for (int i = 0; i < 255; i++) {
-            final int j = i;
-            executor.submit(() -> {
+        int timeout = 500;
+        String host = ipField.getText();
+        String[] temp = host.split("\\.");
+        ExecutorService executor = Executors.newFixedThreadPool(3);
+        executor.execute(() -> {
+            for (int i = 1; i < 255; i++) {
                 try {
-                    System.out.println(j);
-                    String host = ipField.getText();
-                    String[] temp = host.split("\\.");
-                    temp[3] = String.valueOf(j);
+                    System.out.println(i);
+                    temp[3] = String.valueOf(i);
                     String x = String.join(".", temp);
                     InetAddress address = InetAddress.getByName(x);
                     if (address.isReachable(timeout)) {
-                        //System.out.println(x);
+                        System.out.println(address.toString());
                         //System.out.println("in" + CommField.getText());
-                        isReachable(x, "public");
                         table01.getItems().add(new Client(x, "public"));
+                        //load(x,"public");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            });
-        }
+            }
+        });
     }
 
-    private void isReachable(String x, String aPublic) {
-        VarbindCollection v =
-    }
 
     public void click(MouseEvent mouseEvent) {
         System.out.println("ssd");

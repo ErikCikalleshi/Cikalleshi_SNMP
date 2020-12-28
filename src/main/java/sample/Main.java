@@ -55,9 +55,9 @@ public class Main extends Application {
                     if (varbind.getOid().equals(varbind.toString())) {
                         System.out.println(varbind.getOid() + "not found");
                     }
-                    System.out.println(varbind.getOid() + " = " + varbind.toString());
+                    //System.out.println(varbind.getOid() + " = " + varbind.toString());
                 }
-                System.out.println(varbinds.asList());
+                //System.out.println(varbinds.asList());
                 return varbinds;
             }
         });
@@ -75,39 +75,6 @@ public class Main extends Application {
         }
         VarbindCollection r = future.get();
         return r;
-        /*System.out.println("3");
-        Callable<VarbindCollection> callable = () -> {
-            SnmpContext context = SnmpFactory.getInstance().newContext(target, mib);
-            System.out.println("1");
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-
-                }
-            });
-            VarbindCollection varbinds = context.get(".1.3.6.1.2.1.1.1.0", ".1.3.6.1.2.1.25.1.1.0", ".1.3.6.1.2.1.25.2.2.0", ".1.3.6.1.2.1.1.6.0", ".1.3.6.1.2.1.1.5.0", ".1.3.6.1.2.1.1.4.0", ".1.3.6.1.2.1.1.1.0").get();
-            System.out.println("2");
-            System.out.println("asads");
-            for (Varbind varbind : varbinds) {
-                if (varbind.getOid().equals(varbind.toString())) {
-                    System.out.println(varbind.getOid() + "not found");
-                }
-                System.out.println(varbind.getOid() + " = " + varbind.toString());
-            }
-            System.out.println(varbinds.asList());
-            return varbinds;
-        };
-        Future<VarbindCollection> result = executor.submit(callable);
-        if(!result.isDone()){
-            System.out.println("dtes");
-            VarbindCollection r = result.get();
-            return r;
-        }else{
-            result.cancel(true);
-            System.out.println("fads");
-            executor.shutdownNow();
-            return null;
-        }*/
 
 }
 
