@@ -54,6 +54,7 @@ Das Programm muss noch umstrukturiert werden:
 * Standarmäßig public oder private Community-String
 * Load -und Unload von eigene Mib-Dateien
 * Eigene MIBs bzw. OID eingeben (sysName bzw. .1.3.6.1.2.1.1.5.0)
+* CSS
 * **Traps oder Informs empfangen muss noch programmiert werden**
 
 
