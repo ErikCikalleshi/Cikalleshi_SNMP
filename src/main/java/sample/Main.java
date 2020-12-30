@@ -14,6 +14,7 @@ import java.util.concurrent.TimeoutException;
 
 public class Main extends Application {
     static Mib mib = MibFactory.getInstance().newMib();
+    static boolean getNext = false;
     @Override
     public void start(Stage primaryStage) throws Exception {
         /*
@@ -34,45 +35,49 @@ public class Main extends Application {
         mib.load(file);
         URL url = new File("C:\\Users\\Erikc\\IdeaProjects\\SNMP\\src\\main\\resources\\sample.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 1200, 800));
+        Scene scene = new Scene(root);
+        primaryStage.setTitle("SNMP-Tool");
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    static VarbindCollection read(String ip, String community) throws IOException, ExecutionException, InterruptedException {
+    static VarbindCollection read(String ip, String community, String getMethod) throws ExecutionException, InterruptedException {
         SimpleSnmpV2cTarget target = new SimpleSnmpV2cTarget();
         target.setAddress(ip);
-        target.setCommunity("public");
+        target.setCommunity(community);
         ExecutorService executor = Executors.newSingleThreadExecutor();
         SnmpContext context = SnmpFactory.getInstance().newContext(target, mib);
         Future<VarbindCollection> future = executor.submit(new Callable<VarbindCollection>() {
             @Override
-            public VarbindCollection call() throws Exception {
-                VarbindCollection varbinds = context.get(".1.3.6.1.2.1.1.1.0", ".1.3.6.1.2.1.25.1.1.0", ".1.3.6.1.2.1.25.2.2.0", ".1.3.6.1.2.1.1.6.0", ".1.3.6.1.2.1.1.5.0", ".1.3.6.1.2.1.1.4.0", ".1.3.6.1.2.1.1.1.0").get();
+            public VarbindCollection call() {
+                VarbindCollection varbinds = null;
+                if(getMethod.equals("get")){
+                    varbinds = context.get(".1.3.6.1.2.1.1.1.0", ".1.3.6.1.2.1.25.1.1.0", ".1.3.6.1.2.1.25.2.2.0", ".1.3.6.1.2.1.1.6.0", ".1.3.6.1.2.1.1.5.0", ".1.3.6.1.2.1.1.4.0", ".1.3.6.1.2.1.1.1.0").get();
+                }else {
+                    varbinds = context.getNext(Controller.getInstance().getCommandOID()).get();
+                    Controller.getInstance().setCommand(varbinds.get(0).getOid());
+                }
                 for (Varbind varbind : varbinds) {
                     if (varbind.getOid().equals(varbind.toString())) {
                         System.out.println(varbind.getOid() + "not found");
                     }
-                    //System.out.println(varbind.getOid() + " = " + varbind.toString());
                 }
-                //System.out.println(varbinds.asList());
                 return varbinds;
             }
         });
 
         try {
-            future.get(500, TimeUnit.MILLISECONDS); //timeout is in 5 seconds
-        } catch (TimeoutException e) {
-            System.err.println("Your Client is with SNMP not reachable");
+            future.get(500, TimeUnit.MILLISECONDS);
+        } catch (CancellationException | TimeoutException e) {
+            future.cancel(true);
             executor.shutdownNow();
-            /*try {
-                future.cancel(true);
-            } catch (CancellationException c) {
-                System.out.println("Task cancelled");
-            }*/
         }
-        VarbindCollection r = future.get();
-        return r;
+        if(!future.isCancelled()){
+            return future.get();
+        }else {
+            return null;
+        }
+
 
 }
 

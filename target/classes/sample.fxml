@@ -1,136 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckMenuItem?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 
-<VBox prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
-  <children>
-    <MenuBar VBox.vgrow="NEVER">
-      <menus>
-        <Menu mnemonicParsing="false" text="File">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Load MIB" />
-            <MenuItem mnemonicParsing="false" text="UnLoad MIB" />
-                  <CheckMenuItem mnemonicParsing="false" text="GetNext" />
-                  <CheckMenuItem mnemonicParsing="false" text="Get" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cut" />
-            <MenuItem mnemonicParsing="false" text="Copy" />
-            <MenuItem mnemonicParsing="false" text="Paste" />
-            <MenuItem mnemonicParsing="false" text="Delete" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-          </items>
-        </Menu>
-      </menus>
-    </MenuBar>
-    <SplitPane dividerPositions="0.25389755011135856" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
-      <items>
-        <AnchorPane>
-          <children>
-            <Label alignment="CENTER" layoutX="47.0" layoutY="15.0" minWidth="60.0" prefHeight="27.0" prefWidth="64.0" style="&#10;" text="Subnet:" textAlignment="CENTER" wrapText="false">
-              <font>
-                <Font size="18.0" fx:id="x1" />
-              </font>
-            </Label>
-                  <TextField fx:id="ipField" layoutX="111.0" layoutY="15.0" onAction="#getIpBtn" />
-                  <Button fx:id="scanNetworkBtn" layoutX="31.0" layoutY="87.0" mnemonicParsing="false" onAction="#scanNetwork" prefHeight="32.0" prefWidth="239.0" text="Scan Network" />
-                  <TableView fx:id="table01" layoutX="23.0" layoutY="127.0" prefHeight="607.0" prefWidth="256.0">
-                    <columns>
-                      <TableColumn fx:id="Test" prefWidth="255.0" text="Test" />
-                    </columns>
-                  </TableView>
-                  <TextField layoutX="111.0" layoutY="50.0" />
-            <Label alignment="CENTER" layoutX="14.0" layoutY="50.0" minWidth="60.0" prefHeight="27.0" prefWidth="99.0" style="&#10;" text="Community:" textAlignment="CENTER" wrapText="false">
-              <font>
-                <Font size="18.0" fx:id="x2" />
-              </font>
-            </Label>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="953.0" prefWidth="1452.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+    <children>
+        <MenuBar VBox.vgrow="NEVER">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Load MIB" />
+                        <MenuItem mnemonicParsing="false" text="UnLoad MIB" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Quit" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Undo" />
+                        <MenuItem mnemonicParsing="false" text="Redo" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Cut" />
+                        <MenuItem mnemonicParsing="false" text="Copy" />
+                        <MenuItem mnemonicParsing="false" text="Paste" />
+                        <MenuItem mnemonicParsing="false" text="Delete" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Select All" />
+                        <MenuItem mnemonicParsing="false" text="Unselect All" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <SplitPane dividerPositions="0.2751724137931034" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+            <items>
+                <AnchorPane prefHeight="907.0" prefWidth="369.0">
+                    <children>
+                        <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" minWidth="60.0" prefHeight="27.0" prefWidth="64.0" style="&#10;" text="Subnet:" textAlignment="CENTER" wrapText="false">
+                            <font>
+                                <Font size="18.0" fx:id="x1" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="ipField" layoutX="119.0" layoutY="15.0" onAction="#getIpBtn" prefHeight="26.0" prefWidth="190.0" />
+                        <Button fx:id="scanNetworkBtn" layoutX="13.0" layoutY="138.0" mnemonicParsing="false" onAction="#scanNetwork" prefHeight="32.0" prefWidth="358.0" text="Scan Network" />
+                        <TableView fx:id="table01" layoutX="13.0" layoutY="179.0" prefHeight="662.0" prefWidth="358.0">
+                            <columns>
+                                <TableColumn fx:id="Test" prefWidth="357.0" text="IP - Address" />
+                            </columns>
+                        </TableView>
+                        <Label alignment="CENTER" layoutX="14.0" layoutY="51.0" minWidth="60.0" prefHeight="27.0" prefWidth="99.0" style="&#10;" text="Community:" textAlignment="CENTER" wrapText="false">
+                            <font>
+                                <Font size="18.0" fx:id="x2" />
+                            </font>
+                        </Label>
+                        <ChoiceBox fx:id="getMethod" layoutX="314.0" layoutY="94.0" prefHeight="25.0" prefWidth="72.0" />
+                        <Label alignment="CENTER" layoutX="14.0" layoutY="93.0" minWidth="60.0" prefHeight="27.0" prefWidth="99.0" style="&#10;" text="MIB or OID" textAlignment="CENTER" wrapText="false">
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </Label>
+                  <TextField fx:id="community" layoutX="119.0" layoutY="52.0" prefHeight="26.0" prefWidth="190.0" />
+                  <TextField fx:id="command" layoutX="119.0" layoutY="94.0" prefHeight="26.0" prefWidth="190.0" />
 
-          </children>
-        </AnchorPane>
-            <TabPane prefHeight="800.0" prefWidth="891.0" tabClosingPolicy="UNAVAILABLE">
-              <tabs>
-                <Tab text="Result Table">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <ScrollPane layoutX="7.0" prefHeight="721.0" prefWidth="870.0">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="717.0" prefWidth="870.0">
-                                       <children>
-                                          <TableView fx:id="table02" layoutY="6.0" prefHeight="696.0" prefWidth="870.0">
-                                            <columns>
-                                              <TableColumn fx:id="Name" prefWidth="277.0" text="Name" />
-                                              <TableColumn fx:id="OID" prefWidth="263.0" text="OID" />
-                                              <TableColumn fx:id="Value" prefWidth="315.0" text="Value" />
-                                            </columns>
-                                          </TableView>
-                                       </children></AnchorPane>
-                                </content>
-                              </ScrollPane>
-                           </children>
-                        </AnchorPane>
-                  </content>
-                </Tab>
-                  <Tab text="Trap">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                    </content>
-                  </Tab>
-              </tabs>
-            </TabPane>
-      </items>
-    </SplitPane>
-    <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
-      <children>
-        <Label maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="Left status" HBox.hgrow="ALWAYS">
-          <font>
-            <Font size="11.0" fx:id="x3" />
-          </font>
-          <textFill>
-            <Color blue="0.625" green="0.625" red="0.625" fx:id="x4" />
-          </textFill>
-        </Label>
-        <Pane prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS" />
-        <Label font="$x3" maxWidth="-1.0" text="Right status" textFill="$x4" HBox.hgrow="NEVER" />
-      </children>
-      <padding>
-        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-      </padding>
-    </HBox>
-  </children>
+                    </children>
+                </AnchorPane>
+                <TabPane prefHeight="814.0" prefWidth="1030.0" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                        <Tab text="Result Table">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <children>
+                                        <ScrollPane layoutX="7.0" prefHeight="814.0" prefWidth="1030.0">
+                                            <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="814.0" prefWidth="1030.0">
+                                                    <children>
+                                                        <TableView fx:id="table02" layoutY="6.0" prefHeight="814.0" prefWidth="1030.0">
+                                                            <columns>
+                                                                <TableColumn fx:id="Name" prefWidth="242.0" text="Name" />
+                                                                <TableColumn fx:id="OID" prefWidth="260.0" text="OID" />
+                                                                <TableColumn fx:id="Value" prefWidth="353.0" text="Value" />
+                                                                <TableColumn fx:id="IP" prefWidth="175.0" text="IP" />
+
+                                                            </columns>
+                                                        </TableView>
+                                                    </children>
+                                                </AnchorPane>
+                                            </content>
+                                        </ScrollPane>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                        <Tab text="Trap">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                            </content>
+                        </Tab>
+                    </tabs>
+                </TabPane>
+            </items>
+        </SplitPane>
+        <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
+            <children>
+                <Label maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="Left status" HBox.hgrow="ALWAYS">
+                    <font>
+                        <Font size="11.0" fx:id="x3" />
+                    </font>
+                    <textFill>
+                        <Color red="0.625" green="0.625" blue="0.625" fx:id="x4" />
+                    </textFill>
+                </Label>
+                <Pane prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS" />
+                <Label font="$x3" maxWidth="-1.0" text="Right status" textFill="$x4" HBox.hgrow="NEVER" />
+            </children>
+            <padding>
+                <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+            </padding>
+        </HBox>
+    </children>
 </VBox>
