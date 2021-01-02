@@ -5,10 +5,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import org.soulwing.snmp.*;
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -26,13 +26,13 @@ public class Controller {
     @FXML
     public TextField command = new TextField();
     @FXML
-    private  TableView<Client> table01 = new TableView<>();
+    private TableView<Client> table01 = new TableView<>();
     @FXML
     public TableColumn<Client, String> Test;
     @FXML
     private Button scanNetworkBtn;
     @FXML
-    public TableView<Varbinds> table02;
+    public TableView<Varbinds> table02 = new TableView<>();
     @FXML
     public TableColumn<Varbinds, String> Name;
     @FXML
@@ -62,10 +62,6 @@ public class Controller {
                 if (client.getTest().getText().equals(ip)) {
                     client.getTest().setStyle("-fx-background-color: orangered");
                 }
-            }
-        } else {
-            for (int i = 0; i < v.size(); i++) {
-                table02.getItems().add(new Varbinds(v.get(i), ip));
             }
         }
     }
@@ -100,13 +96,13 @@ public class Controller {
         //read();
     }
 
-    public void scanNetwork(ActionEvent actionEvent) throws InterruptedException {
-        int timeout = 1000;
+    public void scanNetwork(ActionEvent actionEvent) throws InterruptedException, ExecutionException {
+        int timeout = 2000;
         String host = ipField.getText();
         String[] temp = host.split("\\.");
-
         ExecutorService executor = Executors.newCachedThreadPool();
         table01.getItems().clear();
+        clients.clear();
         for (int i = 1; i < 255; i++) {
             Thread.sleep(2);
             final int j = i;
@@ -117,14 +113,12 @@ public class Controller {
                     InetAddress address = InetAddress.getByName(x);
 
                     if (address.isReachable(timeout)) {
-
                         // System.out.println(address.toString());
-                        clients.add(new Client(x, community.getText()));
-
-                        if (clients.size() > 0) {
-                            table01.getItems().add(clients.get(clients.size() - 1));
+                        synchronized (this){
+                            clients.add(new Client(x, community.getText()));
                         }
-                        load(x, community.getText());
+                        //System.out.println(clients.get(clients.size() - 1).getIp());
+                        load(x,community.getText());
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -132,20 +126,32 @@ public class Controller {
             });
 
         }
-        Thread.sleep(100);
-        executor.shutdown();
+        Thread.sleep(200);
 
+        executor.shutdown();
+        for (Client client : clients) {
+            table01.getItems().add(client);
+            System.out.println(client.getIp());
+        }
         try {
-            if (executor.awaitTermination(1000, TimeUnit.MILLISECONDS)) {
-                table02.getItems().clear();
+            if (executor.awaitTermination(200, TimeUnit.MILLISECONDS)) {
+                executor.shutdownNow();
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
 
+    }
 
     public void click(MouseEvent mouseEvent) {
         System.out.println("ssd");
+    }
+
+    public void getInformation(String ip, String community) throws ExecutionException, InterruptedException {
+        VarbindCollection v = null;
+        v = Main.read(ip, community, getMethod.getValue());
+        for (int i = 0; i < v.size(); i++) {
+            table02.getItems().add(new Varbinds(v.get(i), ip));
+        }
     }
 }
