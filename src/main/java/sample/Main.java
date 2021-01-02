@@ -14,9 +14,17 @@ import java.util.concurrent.TimeoutException;
 
 public class Main extends Application {
     static Mib mib = MibFactory.getInstance().newMib();
+    static File file;
     static boolean getNext = false;
+    private static Stage pStage;
+
+    public static Stage getpStage() {
+        return pStage;
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
+        pStage = primaryStage;
         /*
             .1.3.6.1.2.1.1.1.0 --> Hardware Information
             .1.3.6.1.2.1.25.1.1.0 --> SystemUpTime
@@ -31,8 +39,7 @@ public class Main extends Application {
          */
 
         loadMib(mib);
-        File file = new File("C:\\Users\\Erikc\\Downloads\\NAS.mib");
-        mib.load(file);
+
         URL url = new File("C:\\Users\\Erikc\\IdeaProjects\\SNMP\\src\\main\\resources\\sample.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Scene scene = new Scene(root);
@@ -40,6 +47,8 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
+
 
     static VarbindCollection read(String ip, String community, String getMethod) throws ExecutionException, InterruptedException {
         SimpleSnmpV2cTarget target = new SimpleSnmpV2cTarget();

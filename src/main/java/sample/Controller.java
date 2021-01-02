@@ -5,10 +5,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 import org.soulwing.snmp.*;
+
+import java.io.IOException;
 import java.net.InetAddress;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -26,6 +28,8 @@ public class Controller {
     @FXML
     public TextField command = new TextField();
     @FXML
+    public MenuItem loadMib = new MenuItem();
+    @FXML
     private TableView<Client> table01 = new TableView<>();
     @FXML
     public TableColumn<Client, String> Test;
@@ -41,6 +45,7 @@ public class Controller {
     private TableColumn<Varbinds, String> Value;
     @FXML
     public TableColumn<Varbinds, String> IP;
+    FileChooser fileChooser = new FileChooser();
 
     private ArrayList<Client> clients = new ArrayList<>();
 
@@ -113,11 +118,9 @@ public class Controller {
                     InetAddress address = InetAddress.getByName(x);
 
                     if (address.isReachable(timeout)) {
-                        // System.out.println(address.toString());
                         synchronized (this){
                             clients.add(new Client(x, community.getText()));
                         }
-                        //System.out.println(clients.get(clients.size() - 1).getIp());
                         load(x,community.getText());
                     }
                 } catch (Exception e) {
@@ -153,5 +156,14 @@ public class Controller {
         for (int i = 0; i < v.size(); i++) {
             table02.getItems().add(new Varbinds(v.get(i), ip));
         }
+    }
+
+    public void loadOwnMib(ActionEvent actionEvent) throws IOException {
+        Main.file = fileChooser.showOpenDialog(Main.getpStage());
+        Main.mib.load(Main.file);
+    }
+
+    public void commandOnAction(ActionEvent actionEvent) {
+
     }
 }
