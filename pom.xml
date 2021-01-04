@@ -9,6 +9,11 @@
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
+        <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>3.6</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.soulwing.snmp/tnm4j -->
         <dependency>
             <groupId>org.soulwing.snmp</groupId>

@@ -6,15 +6,14 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
+import org.apache.commons.net.util.SubnetUtils;
 import org.soulwing.snmp.*;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 
 public class Controller {
@@ -53,35 +52,40 @@ public class Controller {
         return instance;
     }
 
-    public String getCommandOID(){ return command.getText(); }
+    public String getCommandOID() {
+        return command.getText();
+    }
 
-    public void setCommand(String command){
+    public void setCommand(String command) {
         this.command.setText(command);
     }
 
-    public void load(String ip, String community) throws InterruptedException, ExecutionException {
+
+    public Runnable load(String ip, String community) throws InterruptedException, ExecutionException {
         VarbindCollection v = null;
         v = Main.read(ip, community, getMethod.getValue());
         if (v == null) {
             for (Client client : clients) {
                 if (client.getTest().getText().equals(ip)) {
                     client.getTest().setStyle("-fx-background-color: orangered");
+                    //client.getTest().setDisable(true);
                 }
             }
         }
+        return null;
     }
 
     @FXML
     public void initialize() {
         instance = this;
-        ipField.setText("10.10.30.0");
+        ipField.setText("10.10.30.1/24");
         ipField.setPromptText("ex.: 192.168.1.0");
         community.setText("public");
         community.setPromptText("Community-Name");
         command.setText(".1.3");
         command.setPromptText("ex.: .1.3.6.1.2.1.1.5.0 or sysName");
 
-        getMethod.getItems().addAll("get", "getNext");
+        getMethod.getItems().addAll("Basic Information", "get", "getNext");
         getMethod.getSelectionModel().select(0);
 
         Name.setCellValueFactory(new PropertyValueFactory<>("Name"));
@@ -101,14 +105,84 @@ public class Controller {
         //read();
     }
 
-    public void scanNetwork(ActionEvent actionEvent) throws InterruptedException, ExecutionException {
-        int timeout = 2000;
-        String host = ipField.getText();
-        String[] temp = host.split("\\.");
-        ExecutorService executor = Executors.newCachedThreadPool();
+    public void scanNetwork(ActionEvent actionEvent) throws InterruptedException, ExecutionException, MalformedURLException {
         table01.getItems().clear();
         clients.clear();
-        for (int i = 1; i < 255; i++) {
+        String host = ipField.getText();
+
+        if (!host.contains("/")) {
+            String[] temp = host.split("\\.");
+            if (temp[temp.length - 1].equals("0")) {
+                scanDefaultSubnet(temp);
+            } else {
+                scanOneIP(host);
+            }
+        } else {
+            SubnetUtils utils = new SubnetUtils(host);
+            String[] addresses = utils.getInfo().getAllAddresses();
+            System.out.println(addresses.length);
+            ExecutorService executor = Executors.newCachedThreadPool();
+            for (String ip : addresses) {
+                executor.submit(() -> {
+                    try {
+                        Thread.sleep(5);
+                        InetAddress address = InetAddress.getByName(ip);
+                       // System.out.println(address.toString());
+                        if (address.isReachable(800)) {
+                            synchronized (this) {
+                                clients.add(new Client(ip, community.getText()));
+                                //System.out.println(clients.get(clients.size() - 1).getIp());
+                            }
+                            load(ip, community.getText());
+                        }
+                    } catch (InterruptedException | IOException | ExecutionException e) {
+                        e.printStackTrace();
+                    }
+
+                });
+            }
+            Thread.sleep(1000);
+            executor.shutdown();
+            try {
+                if (!executor.awaitTermination(1000, TimeUnit.MILLISECONDS)) {
+                    executor.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                executor.shutdownNow();
+            }
+            /*try {
+                if (executor.awaitTermination(2000, TimeUnit.MILLISECONDS)) {
+                    executor.shutdown();
+                    executor.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }*/
+
+            System.out.println(clients.size());
+            for (Client client : clients) {
+                table01.getItems().add(client);
+                //System.out.println(client.getIp());
+            }
+
+        }
+
+
+
+}
+
+
+    private void scanOneIP(String ip) throws ExecutionException, InterruptedException, MalformedURLException {
+        clients.add(new Client(ip, community.getText()));
+        load(ip, community.getText());
+        table01.getItems().add(clients.get(0));
+    }
+
+    private void scanDefaultSubnet(String[] temp) throws InterruptedException {
+        int timeout = 2000;
+        ExecutorService executor = Executors.newCachedThreadPool();
+
+        for (int i = 1; i < 256; i++) {
             Thread.sleep(2);
             final int j = i;
             executor.execute(() -> {
@@ -118,10 +192,11 @@ public class Controller {
                     InetAddress address = InetAddress.getByName(x);
 
                     if (address.isReachable(timeout)) {
-                        synchronized (this){
+                        synchronized (this) {
                             clients.add(new Client(x, community.getText()));
+                            System.out.println(clients.get(clients.size() - 1).getIp());
                         }
-                        load(x,community.getText());
+                        load(x, community.getText());
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -129,7 +204,7 @@ public class Controller {
             });
 
         }
-        Thread.sleep(200);
+        Thread.sleep(400);
 
         executor.shutdown();
         for (Client client : clients) {
@@ -143,7 +218,6 @@ public class Controller {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
 
     public void click(MouseEvent mouseEvent) {

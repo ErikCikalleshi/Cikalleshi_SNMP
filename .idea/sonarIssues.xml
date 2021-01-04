@@ -213,6 +213,21 @@
             <set />
           </value>
         </entry>
+        <entry key="$USER_HOME$/Downloads/SubnetTest/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/SubnetTest/src/com/company/Main.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/SubnetTest/src/main/java/com/company/Main.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$USER_HOME$/Downloads/final_Client/src/sample/BroadcastListener.java">
           <value>
             <set />
@@ -224,6 +239,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/sample/AddressHelper.java">
           <value>
             <set />
           </value>
@@ -264,6 +284,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/sample/Varbinds.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/sample/ipIsReachable.java">
           <value>
             <set />
           </value>
