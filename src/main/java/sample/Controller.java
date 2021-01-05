@@ -29,6 +29,8 @@ public class Controller {
     @FXML
     public MenuItem loadMib = new MenuItem();
     @FXML
+    public ProgressBar loadingBar = new ProgressBar();
+    @FXML
     private TableView<Client> table01 = new TableView<>();
     @FXML
     public TableColumn<Client, String> Test;
@@ -109,7 +111,7 @@ public class Controller {
         table01.getItems().clear();
         clients.clear();
         String host = ipField.getText();
-
+        Thread.sleep(500);
         if (!host.contains("/")) {
             String[] temp = host.split("\\.");
             if (temp[temp.length - 1].equals("0")) {
@@ -121,55 +123,58 @@ public class Controller {
             SubnetUtils utils = new SubnetUtils(host);
             String[] addresses = utils.getInfo().getAllAddresses();
             System.out.println(addresses.length);
+            CountDownLatch latch = new CountDownLatch(10);
+
             ExecutorService executor = Executors.newCachedThreadPool();
-            for (String ip : addresses) {
-                executor.submit(() -> {
-                    try {
-                        Thread.sleep(5);
-                        InetAddress address = InetAddress.getByName(ip);
-                       // System.out.println(address.toString());
-                        if (address.isReachable(800)) {
-                            synchronized (this) {
-                                clients.add(new Client(ip, community.getText()));
-                                //System.out.println(clients.get(clients.size() - 1).getIp());
+
+            new Thread(() -> {
+                double counter = 0;
+                for (String ip : addresses) {
+                    executor.submit(() -> {
+                        try {
+                            InetAddress address = InetAddress.getByName(ip);
+
+                            if (address.isReachable(1000)) {
+                                System.out.println(address.toString());
+                                synchronized (this) {
+                                    clients.add(new Client(ip, community.getText()));
+                                    //System.out.println(clients.get(clients.size() - 1).getIp());
+                                }
+                                load(ip, community.getText());
                             }
-                            load(ip, community.getText());
+                            //latch.countDown();
+                        } catch (InterruptedException | IOException | ExecutionException e) {
+                            Thread.currentThread().interrupt();
                         }
-                    } catch (InterruptedException | IOException | ExecutionException e) {
+                    });
+                    try {
+                        synchronized (this){
+                            counter++;
+                            loadingBar.setProgress(counter/addresses.length);
+                        }
+
+                        Thread.sleep(2);
+                    } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-
-                });
-            }
-            Thread.sleep(1000);
-            executor.shutdown();
-            try {
-                if (!executor.awaitTermination(1000, TimeUnit.MILLISECONDS)) {
+                }
+                try {
+                    if (!executor.awaitTermination(500, TimeUnit.MILLISECONDS)) {
+                        executor.shutdownNow();
+                    }
+                } catch (InterruptedException e) {
                     executor.shutdownNow();
                 }
-            } catch (InterruptedException e) {
-                executor.shutdownNow();
-            }
-            /*try {
-                if (executor.awaitTermination(2000, TimeUnit.MILLISECONDS)) {
-                    executor.shutdown();
-                    executor.shutdownNow();
+                System.out.println(clients.size());
+                for (Client client : clients) {
+                    table01.getItems().add(client);
                 }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }*/
+            }).start();
 
-            System.out.println(clients.size());
-            for (Client client : clients) {
-                table01.getItems().add(client);
-                //System.out.println(client.getIp());
-            }
+
 
         }
-
-
-
-}
+    }
 
 
     private void scanOneIP(String ip) throws ExecutionException, InterruptedException, MalformedURLException {
