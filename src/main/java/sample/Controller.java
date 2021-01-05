@@ -12,8 +12,12 @@ import org.soulwing.snmp.*;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 public class Controller {
@@ -126,9 +130,10 @@ public class Controller {
             CountDownLatch latch = new CountDownLatch(10);
 
             ExecutorService executor = Executors.newCachedThreadPool();
-
+            Instant starts = Instant.now();
             new Thread(() -> {
                 double counter = 0;
+                AtomicLong waitingTime = new AtomicLong(2L);
                 for (String ip : addresses) {
                     executor.submit(() -> {
                         try {
@@ -137,10 +142,16 @@ public class Controller {
                             if (address.isReachable(1000)) {
                                 System.out.println(address.toString());
                                 synchronized (this) {
+                                    waitingTime.set(2L);
                                     clients.add(new Client(ip, community.getText()));
                                     //System.out.println(clients.get(clients.size() - 1).getIp());
                                 }
                                 load(ip, community.getText());
+                            }else {
+                                synchronized (this){
+                                    waitingTime.set(1);
+                                }
+
                             }
                             //latch.countDown();
                         } catch (InterruptedException | IOException | ExecutionException e) {
@@ -158,6 +169,8 @@ public class Controller {
                         e.printStackTrace();
                     }
                 }
+                Instant ends = Instant.now();
+                System.out.println(Duration.between(starts, ends));
                 try {
                     if (!executor.awaitTermination(500, TimeUnit.MILLISECONDS)) {
                         executor.shutdownNow();
