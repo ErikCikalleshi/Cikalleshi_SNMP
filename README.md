@@ -57,5 +57,6 @@ Das Programm muss noch umstrukturiert werden:
 * ~~IP Range scan~~
 * Eigene MIBs oder OID im "Basic Information" hinzufügen
 * **Traps oder Informs empfangen muss noch programmiert werden**
+* Code neu formatieren und Kommentieren
 
 
