@@ -51,10 +51,10 @@ Der User kann selbst das Subnet und Community auswählen.
 Das Programm muss noch umstrukturiert werden: 
 * ~~Dropdown-Box für die Methode Get/GetNext und Community~~
 * ~~Standarmäßig public oder private Community-String~~
-* Load -und Unload von eigene Mib-Dateien
-* Eigene MIBs bzw. OID eingeben (sysName bzw. .1.3.6.1.2.1.1.5.0)
+* ~~~Load -und Unload von eigene Mib-Dateien~~~
+* ~~~Eigene MIBs bzw. OID eingeben (sysName bzw. .1.3.6.1.2.1.1.5.0)~~~
 * CSS
-* IP Range scan
+* ~~~IP Range scan~~~
 * **Traps oder Informs empfangen muss noch programmiert werden**
 
 
