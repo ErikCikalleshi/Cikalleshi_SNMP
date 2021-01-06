@@ -8,7 +8,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import org.apache.commons.net.util.SubnetUtils;
 import org.soulwing.snmp.*;
-
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
@@ -17,7 +16,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.atomic.AtomicReference;
 
 
 public class Controller {
@@ -34,6 +32,8 @@ public class Controller {
     public MenuItem loadMib = new MenuItem();
     @FXML
     public ProgressBar loadingBar = new ProgressBar();
+    @FXML
+    public Button notification;
     @FXML
     private TableView<Client> table01 = new TableView<>();
     @FXML
@@ -91,7 +91,7 @@ public class Controller {
         command.setText(".1.3");
         command.setPromptText("ex.: .1.3.6.1.2.1.1.5.0 or sysName");
 
-        getMethod.getItems().addAll("Basic Information", "get", "getNext");
+        getMethod.getItems().addAll("Basic", "get", "getNext");
         getMethod.getSelectionModel().select(0);
 
         Name.setCellValueFactory(new PropertyValueFactory<>("Name"));
@@ -163,8 +163,7 @@ public class Controller {
                             counter++;
                             loadingBar.setProgress(counter/addresses.length);
                         }
-
-                        Thread.sleep(2);
+                        Thread.sleep(waitingTime.get());
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -256,6 +255,21 @@ public class Controller {
     }
 
     public void commandOnAction(ActionEvent actionEvent) {
+
+    }
+
+    public void notifications(ActionEvent actionEvent) {
+        new Thread(() ->{
+            Listener l = new Listener(10162);
+            l.startListener();
+            try {
+                Thread.sleep(10000);
+            }catch (Exception e){
+                System.out.println("Listener stopped");
+            }finally {
+                l.stopListener();
+            }
+        }).start();
 
     }
 }

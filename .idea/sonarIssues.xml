@@ -228,12 +228,137 @@
             <set />
           </value>
         </entry>
+        <entry key="$USER_HOME$/Downloads/TP-WebService-Java-master (1)/TP-WebService-Java-master/src/main/resources/GreetMe.wsdl">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/TP-WebService-Java-master (2)/TP-WebService-Java-master/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/TP-WebService-Java-master (2)/TP-WebService-Java-master/src/main/java/it/attednev/Endpoint.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/TP-WebService-Java-master (2)/TP-WebService-Java-master/src/main/java/it/attednev/EndpointGetter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/TP-WebService-Java-master (2)/TP-WebService-Java-master/src/main/java/it/attednev/GetResponse.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/TP-WebService-Java-master (2)/TP-WebService-Java-master/src/main/java/it/attednev/GreetMeEndpoint.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/TP-WebService-Java-master (2)/TP-WebService-Java-master/src/main/java/it/attednev/GreetMeRequest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/TP-WebService-Java-master (2)/TP-WebService-Java-master/src/main/java/it/attednev/GreetMeResponse.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/TP-WebService-Java-master (2)/TP-WebService-Java-master/src/main/java/it/attednev/Main.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/TP-WebService-Java-master (2)/TP-WebService-Java-master/src/main/java/it/attednev/RequestGetter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/TP-WebService-Java-master (2)/TP-WebService-Java-master/src/main/java/it/attednev/ResponseGetter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/TP-WebService-Java-master (2)/TP-WebService-Java-master/src/main/java/it/attednev/WebService.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/TP-WebService-Java-master (2)/TP-WebService-Java-master/src/main/resources/GreetMe.wsdl">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/TP-WebService-Java-master (2)/TP-WebService-Java-master/src/main/resources/hello.wsdl">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/WSDL_Soap_WebService-master/WSDL_Soap_WebService-master/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$USER_HOME$/Downloads/final_Client/src/sample/BroadcastListener.java">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$USER_HOME$/Downloads/final_Client/src/sample/Row.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/wsdl/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/wsdl/src/main/java/com/wsdl/demo/EndpointGetter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/wsdl/src/main/java/com/wsdl/demo/GreetMeEndpoint.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/wsdl/src/main/java/com/wsdl/demo/Main.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/wsdl/src/main/java/com/wsdl/demo/RequestGetter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/wsdl/src/main/java/com/wsdl/demo/ResponseGetter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/wsdl/src/main/java/com/wsdl/demo/WebService.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/wsdl/src/main/java/com/wsdl/demo/resources/hello.wsdl">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/wsdl/src/main/resources/GreetMe.wsdl">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/wsdl/src/main/resources/hello.wsdl">
           <value>
             <set />
           </value>
@@ -259,6 +384,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/sample/ExampleCallback.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/sample/Listener.java">
           <value>
             <set />
           </value>

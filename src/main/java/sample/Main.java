@@ -61,7 +61,7 @@ public class Main extends Application {
             public VarbindCollection call() {
                 VarbindCollection varbinds = null;
                 switch (getMethod) {
-                    case "Basic Information" -> varbinds = context.get(".1.3.6.1.2.1.1.1.0", ".1.3.6.1.2.1.25.1.1.0", ".1.3.6.1.2.1.25.2.2.0", ".1.3.6.1.2.1.1.6.0", ".1.3.6.1.2.1.1.5.0", ".1.3.6.1.2.1.1.4.0", ".1.3.6.1.2.1.1.1.0").get();
+                    case "Basic" -> varbinds = context.get(".1.3.6.1.2.1.1.1.0", ".1.3.6.1.2.1.25.1.1.0", ".1.3.6.1.2.1.25.2.2.0", ".1.3.6.1.2.1.1.6.0", ".1.3.6.1.2.1.1.5.0", ".1.3.6.1.2.1.1.4.0", ".1.3.6.1.2.1.1.1.0").get();
                     case "getNext" -> {
                         varbinds = context.getNext(Controller.getInstance().getCommandOID()).get();
                         Controller.getInstance().setCommand(varbinds.get(0).getOid());
@@ -82,7 +82,7 @@ public class Main extends Application {
             }
         });
         try {
-            future.get(1000, TimeUnit.MILLISECONDS);
+            future.get(500, TimeUnit.MILLISECONDS);
         } catch (CancellationException | TimeoutException e) {
             future.cancel(true);
             executor.shutdownNow();
