@@ -104,15 +104,16 @@
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                     <children>
                                         <Button fx:id="notification" layoutX="30.0" layoutY="14.0" mnemonicParsing="false" onAction="#notifications" prefHeight="32.0" prefWidth="110.0" text="Start/Stop" />
+                                        <TextField fx:id="port" layoutX="153.0" layoutY="14.0" prefHeight="32.0" prefWidth="161.0" />
                                         <TableView fx:id="trapTable" layoutX="33.0" layoutY="63.0" prefHeight="662.0" prefWidth="982.0">
                                             <columns>
                                                 <TableColumn fx:id="OidName" prefWidth="228.0" text="OID/Name" />
                                                 <TableColumn fx:id="ValueTrap" prefWidth="386.0" text="Value" />
                                                 <TableColumn fx:id="Type" minWidth="0.0" prefWidth="181.0" text="Type" />
                                                 <TableColumn fx:id="SourceIP" prefWidth="180.0" text="Source" />
-
                                             </columns>
                                         </TableView>
+
                                     </children>
                                 </AnchorPane>
                             </content>

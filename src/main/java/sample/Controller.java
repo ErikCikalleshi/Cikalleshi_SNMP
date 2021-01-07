@@ -20,69 +20,39 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class Controller {
     private static Controller instance;
-    @FXML
-    public TextField ipField = new TextField();
-    @FXML
-    public TextField community = new TextField();
-    @FXML
-    public ChoiceBox<String> getMethod = new ChoiceBox<>();
-    @FXML
-    public TextField command = new TextField();
-    @FXML
-    public MenuItem loadMib = new MenuItem();
-    @FXML
-    public ProgressBar loadingBar = new ProgressBar();
-    @FXML
-    public Button notification;
-    @FXML
-    public TableView<TrapTable> trapTable = new TableView<>();
-    @FXML
-    public TableColumn<TrapTable, String> OidName;
-    @FXML
-    public TableColumn<TrapTable, String>  ValueTrap;
-    @FXML
-    private TableView<Client> table01 = new TableView<>();
-    @FXML
-    public TableColumn<Client, String> Test;
-    @FXML
-    private Button scanNetworkBtn;
-    @FXML
-    public TableView<Varbinds> table02 = new TableView<>();
-    @FXML
-    public TableColumn<Varbinds, String> Name;
-    @FXML
-    public TableColumn<Varbinds, String> OID;
-    @FXML
-    private TableColumn<Varbinds, String> Value;
-    @FXML
-    public TableColumn<Varbinds, String> IP;
-    @FXML
-    public TableColumn<TrapTable, String> Type;
-    @FXML
-    public TableColumn<TrapTable, String> SourceIP;
+    @FXML public TextField ipField = new TextField();
+    @FXML public TextField community = new TextField();
+    @FXML public ChoiceBox<String> getMethod = new ChoiceBox<>();
+    @FXML public TextField command = new TextField();
+    @FXML public MenuItem loadMib = new MenuItem();
+    @FXML public ProgressBar loadingBar = new ProgressBar();
+    @FXML public Button notification;
+    @FXML public TableView<TrapTable> trapTable = new TableView<>();
+    @FXML public TableColumn<TrapTable, String> OidName;
+    @FXML public TableColumn<TrapTable, String>  ValueTrap;
+    @FXML public TextField port = new TextField();
+    @FXML private TableView<Client> table01 = new TableView<>();
+    @FXML public TableColumn<Client, String> Test;
+    @FXML private Button scanNetworkBtn;
+    @FXML public TableView<Varbinds> table02 = new TableView<>();
+    @FXML public TableColumn<Varbinds, String> Name;
+    @FXML public TableColumn<Varbinds, String> OID;
+    @FXML private TableColumn<Varbinds, String> Value;
+    @FXML public TableColumn<Varbinds, String> IP;
+    @FXML public TableColumn<TrapTable, String> Type;
+    @FXML public TableColumn<TrapTable, String> SourceIP;
+
     FileChooser fileChooser = new FileChooser();
-
     private ArrayList<Client> clients = new ArrayList<>();
-
     public static Controller getInstance() {
         return instance;
     }
 
-    public String getCommandOID() {
-        return command.getText();
-    }
 
-    public void setCommand(String command) {
-        this.command.setText(command);
-    }
-
-    public TableView<TrapTable> getTrapTable(){
-        return trapTable;
-    }
 
     public Runnable load(String ip, String community) throws InterruptedException, ExecutionException {
         VarbindCollection v = null;
-        v = Main.read(ip, community, getMethod.getValue());
+        v = SNMPScanner.read(ip, community, getMethod.getValue());
         if (v == null) {
             for (Client client : clients) {
                 if (client.getTest().getText().equals(ip)) {
@@ -103,6 +73,8 @@ public class Controller {
         community.setPromptText("Community-Name");
         command.setText(".1.3");
         command.setPromptText("ex.: .1.3.6.1.2.1.1.5.0 or sysName");
+        port.setText("10301");
+        port.setPromptText("Port");
 
         getMethod.getItems().addAll("Basic", "get", "getNext");
         getMethod.getSelectionModel().select(0);
@@ -111,7 +83,7 @@ public class Controller {
         OID.setCellValueFactory(new PropertyValueFactory<>("OID"));
         Value.setCellValueFactory(new PropertyValueFactory<>("Value"));
         Test.setCellValueFactory(new PropertyValueFactory<>("Test"));
-        Test.setCellValueFactory(new PropertyValueFactory<>("Dump"));
+        Test.setCellValueFactory(new PropertyValueFactory<>("HBox"));
         IP.setCellValueFactory(new PropertyValueFactory<>("IP"));
 
         SourceIP.setCellValueFactory(new PropertyValueFactory<>("SourceIP"));
@@ -268,7 +240,7 @@ public class Controller {
 
     public void getInformation(String ip, String community) throws ExecutionException, InterruptedException {
         VarbindCollection v = null;
-        v = Main.read(ip, community, getMethod.getValue());
+        v = SNMPScanner.read(ip, community, getMethod.getValue());
         for (int i = 0; i < v.size(); i++) {
             table02.getItems().add(new Varbinds(v.get(i), ip));
         }
@@ -284,8 +256,15 @@ public class Controller {
     }
 
     public void notifications(ActionEvent actionEvent) {
+        int portNumber = Integer.parseInt(port.getText());
         new Thread(() ->{
-            Listener l = new Listener(10162);
+            Listener l;
+            if(portNumber >= 1024 || portNumber < 65536){
+                l = new Listener(portNumber);
+            }else{
+                port.setText("");
+                throw new IllegalArgumentException("Port Invalid");
+            }
             l.startListener();
             try {
                 Thread.sleep(10000);
@@ -296,5 +275,17 @@ public class Controller {
             }
         }).start();
 
+    }
+
+    public String getCommandOID() {
+        return command.getText();
+    }
+
+    public void setCommand(String command) {
+        this.command.setText(command);
+    }
+
+    public TableView<TrapTable> getTrapTable(){
+        return trapTable;
     }
 }

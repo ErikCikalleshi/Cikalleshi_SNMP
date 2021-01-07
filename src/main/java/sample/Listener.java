@@ -2,8 +2,6 @@ package sample;
 
 import org.soulwing.snmp.SnmpFactory;
 import org.soulwing.snmp.SnmpListener;
-import org.soulwing.snmp.SnmpNotificationEvent;
-import org.soulwing.snmp.SnmpNotificationHandler;
 
 public class Listener {
     private SnmpListener listener;
@@ -19,8 +17,6 @@ public class Listener {
             if (listener != null) {
                 System.out.println("Listener Started");
                 listener.addHandler(snmpNotificationEvent -> {
-                    System.out.println("received a notification: " + snmpNotificationEvent);
-                    //System.out.println(  snmpNotificationEvent.getSubject().getVarbinds().get(0).getOid());
                     for (int i = 0; i < snmpNotificationEvent.getSubject().getVarbinds().size(); i++) {
                         Controller.getInstance().getTrapTable().getItems().add(new TrapTable(snmpNotificationEvent, i));
                     }

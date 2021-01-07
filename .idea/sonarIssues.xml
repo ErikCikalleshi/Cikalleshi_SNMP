@@ -388,6 +388,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/sample/InitializeScanner.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/sample/Listener.java">
           <value>
             <set />
@@ -404,6 +409,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/sample/ResultCallBack.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/sample/SNMPScanner.java">
           <value>
             <set />
           </value>
