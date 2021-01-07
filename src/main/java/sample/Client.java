@@ -25,14 +25,6 @@ public class Client {
         this.test.setMinWidth(240);
         this.arrow = new Button();
         arrow.setStyle("-fx-background-color: white");
-        //this.test.setMaxWidth(240);
-
-        /*URL url = new File("C:\\Users\\Erikc\\IdeaProjects\\SNMP\\src\\main\\java\\sample\\arrow.jpg").toURI().toURL();
-        image = new Image(String.valueOf(url));
-        view = new ImageView(image);
-        view.setFitWidth(20);
-        view.setFitHeight(10);
-        arrow.setGraphic(view);*/
         this.test.setOnAction(e -> {
             try {
                 Controller.getInstance().getInformation(ip, community);

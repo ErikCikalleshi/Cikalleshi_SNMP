@@ -35,6 +35,12 @@ public class Controller {
     @FXML
     public Button notification;
     @FXML
+    public TableView<TrapTable> trapTable = new TableView<>();
+    @FXML
+    public TableColumn<TrapTable, String> OidName;
+    @FXML
+    public TableColumn<TrapTable, String>  ValueTrap;
+    @FXML
     private TableView<Client> table01 = new TableView<>();
     @FXML
     public TableColumn<Client, String> Test;
@@ -50,6 +56,10 @@ public class Controller {
     private TableColumn<Varbinds, String> Value;
     @FXML
     public TableColumn<Varbinds, String> IP;
+    @FXML
+    public TableColumn<TrapTable, String> Type;
+    @FXML
+    public TableColumn<TrapTable, String> SourceIP;
     FileChooser fileChooser = new FileChooser();
 
     private ArrayList<Client> clients = new ArrayList<>();
@@ -66,6 +76,9 @@ public class Controller {
         this.command.setText(command);
     }
 
+    public TableView<TrapTable> getTrapTable(){
+        return trapTable;
+    }
 
     public Runnable load(String ip, String community) throws InterruptedException, ExecutionException {
         VarbindCollection v = null;
@@ -100,6 +113,18 @@ public class Controller {
         Test.setCellValueFactory(new PropertyValueFactory<>("Test"));
         Test.setCellValueFactory(new PropertyValueFactory<>("Dump"));
         IP.setCellValueFactory(new PropertyValueFactory<>("IP"));
+
+        SourceIP.setCellValueFactory(new PropertyValueFactory<>("SourceIP"));
+        Type.setCellValueFactory(new PropertyValueFactory<>("Type"));
+        OidName.setCellValueFactory(new PropertyValueFactory<>("OidName"));
+        ValueTrap.setCellValueFactory(new PropertyValueFactory<>("ValueTrap"));
+
+        trapTable.getColumns().clear();
+        trapTable.getColumns().add(OidName);
+        trapTable.getColumns().add(ValueTrap);
+        trapTable.getColumns().add(Type);
+        trapTable.getColumns().add(SourceIP);
+
         table02.getColumns().clear();
         table02.getColumns().add(Name);
         table02.getColumns().add(OID);

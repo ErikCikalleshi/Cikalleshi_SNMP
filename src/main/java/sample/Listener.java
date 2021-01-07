@@ -20,7 +20,11 @@ public class Listener {
                 System.out.println("Listener Started");
                 listener.addHandler(snmpNotificationEvent -> {
                     System.out.println("received a notification: " + snmpNotificationEvent);
-                    System.out.println(snmpNotificationEvent.getSubject().getPeer());
+                    //System.out.println(  snmpNotificationEvent.getSubject().getVarbinds().get(0).getOid());
+                    for (int i = 0; i < snmpNotificationEvent.getSubject().getVarbinds().size(); i++) {
+                        Controller.getInstance().getTrapTable().getItems().add(new TrapTable(snmpNotificationEvent, i));
+                    }
+
                     return true;
                 });
             }
