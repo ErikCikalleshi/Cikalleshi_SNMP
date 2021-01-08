@@ -6,7 +6,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="953.0" prefWidth="1452.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="953.0" prefWidth="1452.0" stylesheets="java/sample/styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
     <children>
         <MenuBar VBox.vgrow="NEVER">
             <menus>
@@ -113,6 +113,7 @@
                                                 <TableColumn fx:id="SourceIP" prefWidth="180.0" text="Source" />
                                             </columns>
                                         </TableView>
+                                        <ProgressIndicator fx:id="timer" layoutX="321.0" layoutY="14.0" prefHeight="40.0" prefWidth="80.0" progress="1.0"/>
 
                                     </children>
                                 </AnchorPane>

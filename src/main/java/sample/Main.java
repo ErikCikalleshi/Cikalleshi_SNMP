@@ -34,6 +34,7 @@ public class Main extends Application {
         URL url = new File("C:\\Users\\Erikc\\IdeaProjects\\SNMP\\src\\main\\resources\\sample.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Scene scene = new Scene(root);
+        scene.getStylesheets().add("src/main/java/sample/styles.css");
         primaryStage.setTitle("SNMP-Tool");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);

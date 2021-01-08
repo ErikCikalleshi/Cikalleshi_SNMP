@@ -5,7 +5,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.HBox;
 
 public class Client {
-    private Hyperlink button;
+    public final Hyperlink button;
     private final String ip;
     private final HBox HBox;
 
@@ -13,10 +13,8 @@ public class Client {
         this.HBox = new HBox();
         this.ip = ip;
         this.button = new Hyperlink(ip);
+        this.button.setStyle("-fx-background-color: green; -fx-text-fill: white");
         this.button.setMinWidth(300);
-        this.button.setStyle("-fx-text-fill: white");
-        this.button.setStyle("-fx-text-fill: white");
-
         this.button.setOnAction(e -> {
             try {
                 Controller.getInstance().getInformation(ip, community);

@@ -15,6 +15,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
 
@@ -31,6 +32,7 @@ public class Controller {
     @FXML public TableColumn<TrapTable, String> OidName;
     @FXML public TableColumn<TrapTable, String>  ValueTrap;
     @FXML public TextField port = new TextField();
+    public ProgressIndicator timer = new ProgressIndicator();
     @FXML private TableView<Client> table01 = new TableView<>();
     @FXML public TableColumn<Client, String> Test;
     @FXML private Button scanNetworkBtn;
@@ -48,20 +50,17 @@ public class Controller {
         return instance;
     }
 
-
-
-    public Runnable load(String ip, String community) throws InterruptedException, ExecutionException {
+    public void load(String ip, String community) throws InterruptedException, ExecutionException {
         VarbindCollection v = null;
         v = SNMPScanner.read(ip, community, getMethod.getValue());
         if (v == null) {
             for (Client client : clients) {
                 if (client.getTest().getText().equals(ip)) {
-                    client.getTest().setStyle("-fx-background-color: orangered");
-                    //client.getTest().setDisable(true);
+                    client.getTest().setDisable(true);
+                    client.getTest().setStyle("-fx-background-color: orangered; -fx-text-fill: white; -fx-opacity: 1");
                 }
             }
         }
-        return null;
     }
 
     @FXML
@@ -104,10 +103,6 @@ public class Controller {
         table02.getColumns().add(IP);
     }
 
-    public void getIpBtn(ActionEvent actionEvent) {
-        //read();
-    }
-
     public void scanNetwork(ActionEvent actionEvent) throws InterruptedException, ExecutionException, MalformedURLException {
         table01.getItems().clear();
         clients.clear();
@@ -121,68 +116,65 @@ public class Controller {
                 scanOneIP(host);
             }
         } else {
-            SubnetUtils utils = new SubnetUtils(host);
-            String[] addresses = utils.getInfo().getAllAddresses();
-            System.out.println(addresses.length);
-            CountDownLatch latch = new CountDownLatch(10);
+            scanSubnet();
+        }
+    }
 
-            ExecutorService executor = Executors.newCachedThreadPool();
-            Instant starts = Instant.now();
-            new Thread(() -> {
-                double counter = 0;
-                AtomicLong waitingTime = new AtomicLong(2L);
-                for (String ip : addresses) {
-                    executor.submit(() -> {
-                        try {
-                            InetAddress address = InetAddress.getByName(ip);
+    private void scanSubnet() {
+        SubnetUtils utils = new SubnetUtils(ipField.getText());
+        String[] addresses = utils.getInfo().getAllAddresses();
+        ExecutorService executor = Executors.newCachedThreadPool();
+        Instant starts = Instant.now();
 
-                            if (address.isReachable(1000)) {
-                                System.out.println(address.toString());
-                                synchronized (this) {
-                                    waitingTime.set(2L);
-                                    clients.add(new Client(ip, community.getText()));
-                                    //System.out.println(clients.get(clients.size() - 1).getIp());
-                                }
-                                load(ip, community.getText());
-                            }else {
-                                synchronized (this){
-                                    waitingTime.set(1);
-                                }
-
-                            }
-                            //latch.countDown();
-                        } catch (InterruptedException | IOException | ExecutionException e) {
-                            Thread.currentThread().interrupt();
-                        }
-                    });
+        new Thread(() -> {
+            double counter = 0;
+            AtomicLong waitingTime = new AtomicLong(2L);
+            for (String ip : addresses) {
+                executor.submit(() -> {
                     try {
-                        synchronized (this){
-                            counter++;
-                            loadingBar.setProgress(counter/addresses.length);
+                        InetAddress address = InetAddress.getByName(ip);
+                        if (address.isReachable(1000)) {
+                            System.out.println(address.toString());
+                            synchronized (this) {
+                                waitingTime.set(2L);
+                                clients.add(new Client(ip, community.getText()));
+                            }
+                            load(ip, community.getText());
+                        }else {
+                            synchronized (this){
+                                waitingTime.set(1);
+                            }
                         }
-                        Thread.sleep(waitingTime.get());
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+
+                    } catch (InterruptedException | IOException | ExecutionException e) {
+                        Thread.currentThread().interrupt();
                     }
-                }
-                Instant ends = Instant.now();
-                System.out.println(Duration.between(starts, ends));
+                });
                 try {
-                    if (!executor.awaitTermination(500, TimeUnit.MILLISECONDS)) {
-                        executor.shutdownNow();
+                    synchronized (this){
+                        counter++;
+                        loadingBar.setProgress(counter/addresses.length);
                     }
+                    Thread.sleep(waitingTime.get());
                 } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            Instant ends = Instant.now();
+            System.out.println(Duration.between(starts, ends));
+            try {
+                if (!executor.awaitTermination(500, TimeUnit.MILLISECONDS)) {
                     executor.shutdownNow();
                 }
-                System.out.println(clients.size());
-                for (Client client : clients) {
-                    table01.getItems().add(client);
-                }
-            }).start();
-
-
-
-        }
+            } catch (InterruptedException e) {
+                executor.shutdownNow();
+            }
+            System.out.println(clients.size());
+            for (Client client : clients) {
+                table01.getItems().add(client);
+            }
+        }).start();
     }
 
 
@@ -255,22 +247,49 @@ public class Controller {
 
     }
 
+    public void getIpBtn(ActionEvent actionEvent) {
+        //read();
+    }
     public void notifications(ActionEvent actionEvent) {
         int portNumber = Integer.parseInt(port.getText());
+        AtomicBoolean wait = new AtomicBoolean(true);
+        Thread timerThread = new Thread(()->{
+            for (int i = 10000; i > 0 ; i--) {
+                timer.setProgress((double)i/ 10000);
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            wait.set(false);
+        });
         new Thread(() ->{
-            Listener l;
-            if(portNumber >= 1024 || portNumber < 65536){
+            Listener l = null;
+            notification.setDisable(true);
+            if(portNumber >= 1024 && portNumber < 65536){
                 l = new Listener(portNumber);
             }else{
                 port.setText("");
+                notification.setDisable(false);
+                Thread.currentThread().interrupt();
                 throw new IllegalArgumentException("Port Invalid");
             }
+
             l.startListener();
             try {
-                Thread.sleep(10000);
+                timerThread.start();
             }catch (Exception e){
                 System.out.println("Listener stopped");
             }finally {
+                while(wait.get()){
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                notification.setDisable(false);
                 l.stopListener();
             }
         }).start();

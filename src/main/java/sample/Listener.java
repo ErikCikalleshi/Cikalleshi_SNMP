@@ -20,7 +20,6 @@ public class Listener {
                     for (int i = 0; i < snmpNotificationEvent.getSubject().getVarbinds().size(); i++) {
                         Controller.getInstance().getTrapTable().getItems().add(new TrapTable(snmpNotificationEvent, i));
                     }
-
                     return true;
                 });
             }

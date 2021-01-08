@@ -33,30 +33,27 @@ public class SNMPScanner {
         target.setCommunity(community);
         ExecutorService executor = Executors.newSingleThreadExecutor();
         SnmpContext context = SnmpFactory.getInstance().newContext(target, Main.mib);
-        Future<VarbindCollection> future = executor.submit(new Callable<VarbindCollection>() {
-            @Override
-            public VarbindCollection call() {
-                VarbindCollection varbinds = null;
-                switch (getMethod) {
-                    case "Basic" -> varbinds = context.get(".1.3.6.1.2.1.1.1.0", ".1.3.6.1.2.1.25.1.1.0", ".1.3.6.1.2.1.25.2.2.0", ".1.3.6.1.2.1.1.6.0", ".1.3.6.1.2.1.1.5.0", ".1.3.6.1.2.1.1.4.0", ".1.3.6.1.2.1.1.1.0").get();
-                    case "getNext" -> {
-                        varbinds = context.getNext(Controller.getInstance().getCommandOID()).get();
-                        Controller.getInstance().setCommand(varbinds.get(0).getOid());
-                    }
-                    case "get" -> {
-                        if (Controller.getInstance().getCommandOID().equals(".1.3")) {
-                            Controller.getInstance().setCommand(".1.3.6.1.2.1.1.1.0");
-                        }
-                        varbinds = context.get(Controller.getInstance().getCommandOID()).get();
-                    }
+        Future<VarbindCollection> future = executor.submit(() -> {
+            VarbindCollection varbinds = null;
+            switch (getMethod) {
+                case "Basic" -> varbinds = context.get(".1.3.6.1.2.1.1.1.0", ".1.3.6.1.2.1.25.1.1.0", ".1.3.6.1.2.1.25.2.2.0", ".1.3.6.1.2.1.1.6.0", ".1.3.6.1.2.1.1.5.0", ".1.3.6.1.2.1.1.4.0", ".1.3.6.1.2.1.1.1.0").get();
+                case "getNext" -> {
+                    varbinds = context.getNext(Controller.getInstance().getCommandOID()).get();
+                    Controller.getInstance().setCommand(varbinds.get(0).getOid());
                 }
-                for (Varbind varbind : varbinds) {
-                    if (varbind.getOid().equals(varbind.toString())) {
-                        System.out.println(varbind.getOid() + "not found");
+                case "get" -> {
+                    if (Controller.getInstance().getCommandOID().equals(".1.3")) {
+                        Controller.getInstance().setCommand(".1.3.6.1.2.1.1.1.0");
                     }
+                    varbinds = context.get(Controller.getInstance().getCommandOID()).get();
                 }
-                return varbinds;
             }
+            for (Varbind varbind : varbinds) {
+                if (varbind.getOid().equals(varbind.toString())) {
+                    System.out.println(varbind.getOid() + "not found");
+                }
+            }
+            return varbinds;
         });
         try {
             future.get(500, TimeUnit.MILLISECONDS);
