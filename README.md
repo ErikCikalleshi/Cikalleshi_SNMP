@@ -52,6 +52,10 @@ Man muss nur das gewünschte Subnet und die Community eingeben. Die `Methode` is
 #### Method
 ![File](src/SelectGet.png)
 
+#### Mibs or Oids
+![](ShowMib.gif)
+
+
 ## Trap Listener
 Um den Listener zu starten müssen sie auf `Start/Stop` klicken und den gewünschten Port eingeben.
 ![Trap](src/GetTrap.png)
