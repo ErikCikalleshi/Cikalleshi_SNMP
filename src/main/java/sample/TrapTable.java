@@ -12,7 +12,7 @@ public class TrapTable {
         this.oidName = event.getSubject().getVarbinds().get(index).getOid();
         this.type = event.getSubject().getType().toString();
         this.sourceIP = event.getSubject().getPeer().toString();
-        this.valueTrap = event.getSubject().getVarbinds().get(index).getName();
+        this.valueTrap = String.valueOf(event.getSubject().getVarbinds().get(index));
     }
 
     public String getOidName() {
