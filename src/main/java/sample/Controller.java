@@ -9,8 +9,6 @@ import org.apache.commons.net.util.SubnetUtils;
 import org.soulwing.snmp.*;
 import java.io.IOException;
 import java.net.InetAddress;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -64,7 +62,7 @@ public class Controller {
      * @throws ExecutionException Function SNMPScanner.read() throws InterruptedException
      */
     public void load(String ip, String community) throws InterruptedException, ExecutionException {
-        VarbindCollection v = null;
+        VarbindCollection v;
         v = SNMPScanner.read(ip, community, getMethod.getValue());
         if (v == null) {
             for (Client client : clients) {
@@ -219,7 +217,6 @@ public class Controller {
                     if (address.isReachable(timeout)) {
                         synchronized (this) {
                             clients.add(new Client(x, community.getText()));
-                            System.out.println(clients.get(clients.size() - 1).getIp());
                         }
                         load(x, community.getText());
                     }
@@ -238,7 +235,6 @@ public class Controller {
 
         for (Client client : clients) {
             table01.getItems().add(client);
-            System.out.println(client.getIp());
         }
     }
 
@@ -250,7 +246,7 @@ public class Controller {
      * @throws ExecutionException Function SNMPScanner.read() throws InterruptedException
      */
     public void getInformation(String ip, String community) throws ExecutionException, InterruptedException {
-        VarbindCollection v = null;
+        VarbindCollection v;
         v = SNMPScanner.read(ip, community, getMethod.getValue());
         for (int i = 0; i < v.size(); i++) {
             table02.getItems().add(new Varbinds(v.get(i), ip));
@@ -269,7 +265,7 @@ public class Controller {
 
     /**
      * The Function starts a Listener that listens for x 10000ms
-     * @param actionEvent
+     * @param actionEvent Button onAction
      */
     public void notifications(ActionEvent actionEvent) {
         int portNumber = Integer.parseInt(port.getText());
@@ -286,7 +282,7 @@ public class Controller {
             wait.set(false);
         });
         new Thread(() ->{
-            Listener l = null;
+            Listener l;
             notification.setDisable(true);
             if(portNumber >= 1024 && portNumber < 65536){
                 l = new Listener(portNumber);
@@ -300,8 +296,6 @@ public class Controller {
             l.startListener();
             try {
                 timerThread.start();
-            }catch (Exception e){
-                System.out.println("Listener stopped");
             }finally {
                 while(wait.get()){
                     try {
