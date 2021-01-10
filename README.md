@@ -19,7 +19,7 @@ Systeme und Netze: SNMP-Tool programmieren
 
 ## Installing
 
-In die Releases kann man die [SNMP.jar](https://github.com/Th3RapidK1ller/Cikalleshi_SNMP/releases/download/ThirdMileStone/SNMP.jar)-Datei herunterladen.
+In die Releases kann man die [SNMP.jar](https://github.com/ErikCikalleshi/Cikalleshi_SNMP/releases/download/Final/SNMP-1.0-SNAPSHOT-jar-with-dependencies.jar)-Datei herunterladen.
 
 ## Running the Program
 
