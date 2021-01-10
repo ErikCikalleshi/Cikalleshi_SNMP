@@ -10,6 +10,7 @@ public class Client {
     private final HBox HBox;
 
     public Client(String ip, String community) {
+
         this.HBox = new HBox();
         this.ip = ip;
         this.button = new Hyperlink(ip);

@@ -48,6 +48,21 @@
             <set />
           </value>
         </entry>
+        <entry key="$USER_HOME$/Downloads/Cikalleshi_SNMP-master/Cikalleshi_SNMP-master/src/main/java/sample/Controller.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/Cikalleshi_SNMP-master/Cikalleshi_SNMP-master/src/main/java/sample/Listener.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Downloads/Cikalleshi_SNMP-master/Cikalleshi_SNMP-master/src/main/java/sample/SNMPScanner.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$USER_HOME$/Downloads/SN-SNMP-Browser-Java-master/SN-SNMP-Browser-Java-master/src/java/scanner/SNMPBrowser.java">
           <value>
             <set />
@@ -368,6 +383,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/NewWindow.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/sample/AddressHelper.java">
           <value>
             <set />
@@ -423,12 +443,22 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/sample/Settings.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/sample/TrapTable.java">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/sample/Varbinds.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/sample/commands.txt">
           <value>
             <set />
           </value>
@@ -479,6 +509,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/sample/test.xml.fxml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/NewWindow.fxml">
           <value>
             <set />
           </value>

@@ -14,6 +14,8 @@ public class Main extends Application {
     static Mib mib = MibFactory.getInstance().newMib();
     static File file;
     private static Stage pStage;
+    static Parent root;
+    static Scene scene;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -32,9 +34,8 @@ public class Main extends Application {
          */
         SNMPScanner.initialize();
         URL url = new File("C:\\Users\\Erikc\\IdeaProjects\\SNMP\\src\\main\\resources\\sample.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add("src/main/java/sample/styles.css");
+        root = FXMLLoader.load(url);
+        scene = new Scene(root);
         primaryStage.setTitle("SNMP-Tool");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
@@ -43,6 +44,8 @@ public class Main extends Application {
     public static Stage getpStage() {
         return pStage;
     }
+
+
 
     public static void main(String[] args) {
         launch(args);

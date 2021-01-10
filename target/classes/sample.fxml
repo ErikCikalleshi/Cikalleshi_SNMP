@@ -6,7 +6,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="953.0" prefWidth="1452.0" stylesheets="java/sample/styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="953.0" prefWidth="1452.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
     <children>
         <MenuBar VBox.vgrow="NEVER">
             <menus>
@@ -15,26 +15,7 @@
                         <MenuItem fx:id="loadMib" mnemonicParsing="false" onAction="#loadOwnMib" text="Load MIB" />
                         <MenuItem mnemonicParsing="false" text="UnLoad MIB" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Quit" />
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Undo" />
-                        <MenuItem mnemonicParsing="false" text="Redo" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Cut" />
-                        <MenuItem mnemonicParsing="false" text="Copy" />
-                        <MenuItem mnemonicParsing="false" text="Paste" />
-                        <MenuItem mnemonicParsing="false" text="Delete" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Select All" />
-                        <MenuItem mnemonicParsing="false" text="Unselect All" />
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+                        <MenuItem mnemonicParsing="false" text="Quit" onAction="#quit"/>
                     </items>
                 </Menu>
             </menus>
@@ -48,7 +29,7 @@
                                 <Font size="18.0" fx:id="x1" />
                             </font>
                         </Label>
-                        <TextField fx:id="ipField" layoutX="119.0" layoutY="15.0" onAction="#getIpBtn" prefHeight="26.0" prefWidth="190.0" />
+                        <TextField fx:id="ipField" layoutX="119.0" layoutY="15.0" prefHeight="26.0" prefWidth="190.0" />
                         <Button fx:id="scanNetworkBtn" layoutX="13.0" layoutY="138.0" mnemonicParsing="false" onAction="#scanNetwork" prefHeight="32.0" prefWidth="358.0" text="Scan Network" />
                         <TableView fx:id="table01" layoutX="13.0" layoutY="179.0" prefHeight="662.0" prefWidth="358.0">
                             <columns>
@@ -67,7 +48,7 @@
                             </font>
                         </Label>
                         <TextField fx:id="community" layoutX="119.0" layoutY="52.0" prefHeight="26.0" prefWidth="190.0" />
-                        <TextField fx:id="command" layoutX="119.0" layoutY="94.0" onAction="#commandOnAction" prefHeight="26.0" prefWidth="190.0" />
+                        <TextField fx:id="command" layoutX="119.0" layoutY="94.0" prefHeight="26.0" prefWidth="190.0" />
                         <ProgressBar fx:id="loadingBar" layoutX="12.0" layoutY="859.0" prefHeight="27.0" prefWidth="358.0" progress="0.0" />
 
                     </children>

@@ -10,6 +10,10 @@ import java.util.concurrent.*;
 import java.util.concurrent.TimeoutException;
 
 public class SNMPScanner {
+    /**
+     * SNMPScanner loads Mibs and get do SNMP-request
+     * @throws IOException loadMib() throws IOException
+     */
 
     public static void initialize() throws IOException {
         SNMPScanner.loadMib(Main.mib);
@@ -27,6 +31,14 @@ public class SNMPScanner {
         }
     }
 
+    /**
+     * Function tries to read Information from the IP-Address by using SNMP
+     * If the response needs more than 350ms to come, then it means that the IP is not reachable with SNMP
+     * @param ip get Information based from the selected IP
+     * @param community get information based on the community
+     * @param getMethod getMethod is used to know which getter Methode the user wants
+     * @return if the address is not reachable via SNMP than it returns null otherwise it returns the varbind
+     */
     public static VarbindCollection read(String ip, String community, String getMethod) throws ExecutionException, InterruptedException {
         SimpleSnmpV2cTarget target = new SimpleSnmpV2cTarget();
         target.setAddress(ip);
@@ -55,8 +67,9 @@ public class SNMPScanner {
             }
             return varbinds;
         });
+        //if the executure needs more than 350ms to run then stop the executer
         try {
-            future.get(500, TimeUnit.MILLISECONDS);
+            future.get(350, TimeUnit.MILLISECONDS);
         } catch (CancellationException | TimeoutException e) {
             future.cancel(true);
             executor.shutdownNow();
@@ -66,7 +79,5 @@ public class SNMPScanner {
         } else {
             return null;
         }
-
-
     }
 }

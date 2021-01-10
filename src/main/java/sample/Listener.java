@@ -4,6 +4,9 @@ import org.soulwing.snmp.SnmpFactory;
 import org.soulwing.snmp.SnmpListener;
 
 public class Listener {
+    /**
+     * Listener waits for x seconds for any Traps or Informs
+     */
     private SnmpListener listener;
     private int SNMPPort;
 
@@ -17,7 +20,7 @@ public class Listener {
             if (listener != null) {
                 System.out.println("Listener Started");
                 listener.addHandler(snmpNotificationEvent -> {
-                    for (int i = 0; i < snmpNotificationEvent.getSubject().getVarbinds().size(); i++) {
+                    for (int i = 0; i < snmpNotificationEvent.getSubject().getVarbinds().size(); i++) { //for every Subject add new Item to the TrapTable
                         Controller.getInstance().getTrapTable().getItems().add(new TrapTable(snmpNotificationEvent, i));
                     }
                     return true;
@@ -26,8 +29,6 @@ public class Listener {
         }catch (Exception e){
             listener.close();
         }
-
-
     }
 
     public void stopListener() {
