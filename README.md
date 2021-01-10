@@ -71,4 +71,5 @@ Leider auf Windows sind Traps schwerer weiterzuleiten, als in Linux. Aber glück
 ### Send Trap
 
 Unter `Tools` kann man den `Trap Sender` finden.
+
 ![SendTrap](src/SendTrap.png)
