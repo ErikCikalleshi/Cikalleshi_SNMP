@@ -53,7 +53,7 @@ Man muss nur das gewünschte Subnet und die Community eingeben. Die `Methode` is
 ![File](src/SelectGet.png)
 
 #### Mibs or Oids
-![](ShowMib.gif)
+![Mibs](src/ShowMib.gif)
 
 
 ## Trap Listener
