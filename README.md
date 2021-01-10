@@ -26,7 +26,7 @@ In die Releases kann man die [SNMP.jar](https://github.com/Th3RapidK1ller/Cikall
 Die jar-Datei sollte mit dem folgenden Befehl ausgeführt werden:
 
 ```
-java --module-path {PATH_TO_FX_NUMBER} --add-modules javafx.controls,javafx.fxml,javafx.base,javafx.graphics,javafx.web,javafx.swing -jar {PATH_TO_JAR}
+java --module-path {PATH_TO_FX_NUMBER/lib} --add-modules javafx.controls,javafx.fxml,javafx.base,javafx.graphics,javafx.web,javafx.swing -jar {PATH_TO_JAR}
 ```
 **Reminder: JavaFx 15 und JDK 14 muss installiert sein**
 
@@ -36,11 +36,28 @@ java -version
 ```
 ## How to use
 
-Man muss nur das gewünschte Subnet und die Community eingeben.
-Dann wählen Sie die IP-Adresse aus.
+Man muss nur das gewünschte Subnet und die Community eingeben. Die `Methode` ist standardmäsßig auf `Basic` eingestellt.
+
 ![Scanning for Network](src/example.png)
 
+### Features
+#### Input
+![Scan](src/1Schreibweise.png)
+![Scan](src/2Schreibweise.png)
+![Scan](src/3Schreibweise.png)
 
+#### Load Own Files
+![File](src/File.png)
 
+#### Method
+![File](src/SelectGet.png)
 
+## Trap Listener
+Um den Listener zu starten müssen sie auf `Start/Stop` klicken und den gewünschten Port eingeben.
+![Trap](src/GetTrap.png)
 
+Leider auf Windows sind Traps schwerer weiterzuleiten, als in Linux. Aber glücklicherweise kann man mit den Tool von [iReasoning](https://www.ireasoning.com/) Traps weiterleiten. 
+
+### Send Trap
+Unter `Tools` kann man den `Trap Sender` finden.
+![SendTrap](src/SendTrap.png)
